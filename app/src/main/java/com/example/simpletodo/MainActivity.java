@@ -43,8 +43,6 @@ public class MainActivity extends AppCompatActivity {
         etItem = findViewById(R.id.etItem);
         rvItems = findViewById(R.id.rvitems);
 
-        //etItem.setText("I am doing this from Java");
-
         loadItems();
 
         ItemsAdapter.OnLongClickListener onLongClickListener = new ItemsAdapter.OnLongClickListener() {
@@ -75,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(i, EDIT_TEXT_CODE);
             }
         };
+
+
         itemsAdapter = new ItemsAdapter(items, onLongClickListener, onClickListener);
         rvItems.setAdapter(itemsAdapter);
         rvItems.setLayoutManager(new LinearLayoutManager(this));
@@ -102,26 +102,26 @@ public class MainActivity extends AppCompatActivity {
     // handle the result of the edit activity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-       if (resultCode == RESULT_OK && requestCode == EDIT_TEXT_CODE) {
-           // retreive the updated text value
-           String itemText = data.getStringExtra(KEY_ITEM_TEXT);
+        if (resultCode == RESULT_OK && requestCode == EDIT_TEXT_CODE) {
+            // retrieve the updated text value
+            String itemText = data.getStringExtra(KEY_ITEM_TEXT);
 
-           // extract the original position of the edited item from the position key
-           int position = data.getExtras().getInt(KEY_ITEM_POSITION);
+            // extract the original position of the edited item from the position key
+            int position = data.getExtras().getInt(KEY_ITEM_POSITION);
 
-           //update the model at the right position with new item
-           items.set(position, itemText);
+            //update the model at the right position with new item
+            items.set(position, itemText);
 
-           // notify the adapter
-           itemsAdapter.notifyItemChanged(position);
+            // notify the adapter
+            itemsAdapter.notifyItemChanged(position);
 
-           // persist the change
-           saveItems();
-           Toast.makeText(getApplicationContext(), "Item updated successfully,", Toast.LENGTH_SHORT).show();
+            // persist the change
+            saveItems();
+            Toast.makeText(getApplicationContext(), "Item updated successfully,", Toast.LENGTH_SHORT).show();
 
-       } else {
-           Log.w("MainActivity", "Unknown call to onActivityResult");
-       }
+        } else {
+            Log.w("MainActivity", "Unknown call to onActivityResult");
+        }
     }
 
     private File getDataFile() {
@@ -147,5 +147,4 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
 }
